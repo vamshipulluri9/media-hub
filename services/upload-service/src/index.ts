@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import uploadRoutes from "./routes/uploadRoutes";
 import errorMiddleware from "./middlewares/errorMiddleware";
 import cors from "cors";
+import { sequilize, connectDB } from "./config/postgres.config";
 
 const app: Application = express();
 
@@ -16,6 +17,11 @@ app.use(
     allowedHeaders: ["*"],
   })
 );
+
+connectDB();
+sequilize.sync({ force: false }).then(() => {
+  console.log("DB is synced with models");
+});
 
 app.use(express.json());
 
