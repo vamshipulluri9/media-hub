@@ -4,7 +4,7 @@ import path from "path";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import multerS3 from "multer-s3";
 
-const UPLOAD_DIR = path.join(__dirname, "../../uploads");
+const UPLOAD_DIR = path.join(__dirname, "../../../uploads");
 
 if (!fs.existsSync(UPLOAD_DIR)) {
   fs.mkdirSync(UPLOAD_DIR, { recursive: true });
@@ -13,7 +13,7 @@ if (!fs.existsSync(UPLOAD_DIR)) {
 const localStorage = multer.diskStorage({
   destination: UPLOAD_DIR,
   filename(req, file, callback) {
-    callback(null, `${Date.now()}-${file.originalname}`);
+    callback(null, `${file.originalname}`);
   },
 });
 
@@ -37,7 +37,7 @@ const awsStorage = multerS3({
 
 export const upload = multer({
   storage: localStorage,
-  limits: { fileSize: 50 * 1024 * 1024 },
+  limits: { fileSize: 100 * 1024 * 1024 },
   fileFilter: (req, file, callback) => {
     const allowedTypes = [
       "image/jpg",

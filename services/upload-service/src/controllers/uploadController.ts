@@ -27,7 +27,7 @@ export const uploadController = async (
 
     const videoData = {
       videoUrl: (req.file as any).location,
-      videoTitle: req.file.path,
+      videoTitle: req.file.originalname,
     };
 
     await sendToKafka(videoData);
